@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 
+if(POLICY CMP0167)
+    cmake_policy(SET CMP0167 NEW)
+endif()
+
 if(1) # PROJECT CONFIG BLOCK
 
     set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
@@ -23,6 +27,11 @@ if(1) # PROJECT CONFIG BLOCK
     include(warnings_config)
     include(build_type_config)
     include(options_config)
+
+    find_package(Boost REQUIRED COMPONENTS
+        program_options
+        filesystem
+    )
 
 endif()
 
@@ -71,7 +80,11 @@ if(1) # MAIN APPLICATION BLOCK
         ${SRC_DIR}/main.cpp
     )
 
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${CORE_NAME})
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        ${CORE_NAME}
+        Boost::program_options
+        Boost::filesystem
+    )
 
     target_compile_options(${PROJECT_NAME} PRIVATE ${WARN_FLAGS})
 
