@@ -52,6 +52,10 @@ std::vector<FileInfo> FileScanner::scan(const AppConfig& config) const {
     const NameMatcher name_matcher(config.masks);
 
     for (const fs::path& include_dir : config.include_dirs) {
+        if (is_excluded_directory(include_dir, config.exclude_dirs)) {
+            continue;
+        }
+
         if (!path_is_directory(include_dir)) {
             continue;
         }

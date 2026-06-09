@@ -75,19 +75,55 @@ main() {
     TMP_DIR="$(mktemp -d)"
     trap cleanup EXIT
 
-    printf 'same content\n' > "$TMP_DIR/first.txt"
-    printf 'same content\n' > "$TMP_DIR/second.txt"
-    printf 'other content\n' > "$TMP_DIR/third.txt"
+    mkdir -p "$TMP_DIR/include_a/nested/deeper"
+    mkdir -p "$TMP_DIR/include_b"
+    mkdir -p "$TMP_DIR/excluded"
 
+    # "директории для сканирования (может быть несколько)"
+    # "не забыть, что дубликатов может быть больше чем два"
+    printf 'same content\n' > "$TMP_DIR/include_a/first.TXT"
+    printf 'same content\n' > "$TMP_DIR/include_a/second.txt"
+    printf 'same content\n' > "$TMP_DIR/include_a/nested/nested.txt"
+    printf 'same content\n' > "$TMP_DIR/include_b/third.txt"
+
+    # "директории для исключения из сканирования (может быть несколько)"
+    printf 'same content\n' > "$TMP_DIR/excluded/excluded.txt"
+
+    # "уровень сканирования (один на все директории, 0 - только указанная директория без вложенных)"
+    printf 'same content\n' > "$TMP_DIR/include_a/nested/deeper/deeper.txt"
+
+    # "минимальный размер файла, по умолчанию проверяются все файлы больше 1 байта"
+    printf 'x' > "$TMP_DIR/include_b/small.txt"
+
+    # "маски имен файлов разрешенных для сравнения (не зависят от регистра)"
+    printf 'same content\n' > "$TMP_DIR/include_b/ignored.bin"
+    printf 'other content\n' > "$TMP_DIR/include_b/unique.txt"
+
+    # "без ложных срабатываний и пропуска существующих дубликатов"
+    printf 'same contenx\n' > "$TMP_DIR/include_b/same_size_other.txt"
+
+    # "размер блока, которым производится чтения файлов, в задании этот размер упоминается как S"
+    # "один из имеющихся алгоритмов хэширования (`crc32`, `md5` ...), ... H"
     output="$("$BINARY" \
-        --include "$TMP_DIR" \
-        --level 0 \
-        --block-size 4 \
-        --hash crc32)"
+        --include "$TMP_DIR/include_a" "$TMP_DIR/include_b" "$TMP_DIR/excluded" \
+        --exclude "$TMP_DIR/excluded" \
+        --level 1 \
+        --min-size 2 \
+        --mask "*.txt" \
+        --block-size 5 \
+        --hash md5)"
+
+    # "Результатом работы утилиты должен быть список полных путей файлов с идентичным содержимым"
+    # "Идентичные файлы должны подряд, одной группой"
+    local expected_lines=(
+        "$TMP_DIR/include_a/first.TXT"
+        "$TMP_DIR/include_a/second.txt"
+        "$TMP_DIR/include_a/nested/nested.txt"
+        "$TMP_DIR/include_b/third.txt"
+    )
 
     local expected
-    expected="$TMP_DIR/first.txt
-$TMP_DIR/second.txt"
+    expected="$(printf '%s\n' "${expected_lines[@]}")"
 
     check_output_lines_unordered "duplicate files output" "$expected" "$output"
 

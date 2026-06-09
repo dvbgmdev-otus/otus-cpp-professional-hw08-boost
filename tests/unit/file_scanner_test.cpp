@@ -153,4 +153,14 @@ TEST_F(FileScannerTest, MissingExcludedDirectoryShouldNotAffectScan) {
     const std::vector<FileInfo> files = m_scanner.scan(config);
     EXPECT_EQ(paths_from(files), std::vector<fs::path>({ fs::canonical(file) }));
 }
+
+// 4.3. Директория сканирования, указанная в исключениях, пропускается целиком.
+TEST_F(FileScannerTest, ExcludedIncludeDirectoryShouldBeSkipped) {
+    make_file("file.txt", "content");
+    AppConfig config;
+    config.include_dirs = { m_root };
+    config.exclude_dirs = { m_root };
+    const std::vector<FileInfo> files = m_scanner.scan(config);
+    EXPECT_TRUE(files.empty());
+}
 #endif
