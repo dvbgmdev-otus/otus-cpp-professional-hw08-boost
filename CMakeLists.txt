@@ -47,6 +47,7 @@ if(1) # CORE LIBRARY BLOCK
         ${SRC_DIR}/file_signature.cpp
         ${SRC_DIR}/hasher.cpp
         ${SRC_DIR}/name_matcher.cpp
+        ${SRC_DIR}/output_formatter.cpp
     )
 
     set(COVERAGE_SRC
@@ -56,6 +57,7 @@ if(1) # CORE LIBRARY BLOCK
         ${SRC_DIR}/file_signature.cpp
         ${SRC_DIR}/hasher.cpp
         ${SRC_DIR}/name_matcher.cpp
+        ${SRC_DIR}/output_formatter.cpp
     )
 
     if(${CORE_SRC})

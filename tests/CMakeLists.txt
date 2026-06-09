@@ -69,6 +69,10 @@ add_unit_test(name_matcher_test
     ${UNIT_TEST_DIR}/name_matcher_test.cpp
 )
 
+add_unit_test(output_formatter_test
+    ${UNIT_TEST_DIR}/output_formatter_test.cpp
+)
+
 add_test(
     NAME self_check
     COMMAND ${UNIT_TEST_DIR}/self_check.sh $<TARGET_FILE:${PROJECT_NAME}>
