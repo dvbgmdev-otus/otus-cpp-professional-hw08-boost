@@ -41,6 +41,10 @@ FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 
 # --- Добавление тестов ---
+add_unit_test(cmd_line_parser_test
+    ${UNIT_TEST_DIR}/cmd_line_parser_test.cpp
+)
+
 add_unit_test(empty_test
     ${UNIT_TEST_DIR}/empty_test.cpp
 )

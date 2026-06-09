@@ -41,6 +41,7 @@ if(1) # CORE LIBRARY BLOCK
     set(CORE_SRC ${CORE_NAME}_SRC)
 
     set(${CORE_SRC}
+        ${SRC_DIR}/cmd_line_parser.cpp
         ${SRC_DIR}/duplicate_finder.cpp
         ${SRC_DIR}/file_scanner.cpp
         ${SRC_DIR}/file_signature.cpp
@@ -49,6 +50,7 @@ if(1) # CORE LIBRARY BLOCK
     )
 
     set(COVERAGE_SRC
+        ${SRC_DIR}/cmd_line_parser.cpp
         ${SRC_DIR}/duplicate_finder.cpp
         ${SRC_DIR}/file_scanner.cpp
         ${SRC_DIR}/file_signature.cpp
@@ -64,6 +66,7 @@ if(1) # CORE LIBRARY BLOCK
         )
 
         target_link_libraries(${CORE_NAME} PUBLIC
+            Boost::program_options
             Boost::filesystem
         )
 
