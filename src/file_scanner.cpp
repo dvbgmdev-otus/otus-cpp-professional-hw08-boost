@@ -11,7 +11,7 @@ namespace fs = boost::filesystem;
 
 fs::path normalized_path(const fs::path& path) {
     boost::system::error_code error;
-    const fs::path canonical_path = fs::canonical(path, error);
+    fs::path canonical_path = fs::canonical(path, error);
     if (!error) {
         return canonical_path;
     }
@@ -67,9 +67,8 @@ std::vector<FileInfo> FileScanner::scan(const AppConfig& config) const {
             const fs::path current_path = it->path();
 
             if (path_is_directory(current_path)) {
-                if (is_excluded_directory(current_path, config.exclude_dirs)) {
-                    it.disable_recursion_pending();
-                } else if (static_cast<std::size_t>(it.depth() + 1) > config.scan_depth) {
+                if (is_excluded_directory(current_path, config.exclude_dirs) ||
+                    static_cast<std::size_t>(it.depth()) + 1 > config.scan_depth) {
                     it.disable_recursion_pending();
                 }
 
