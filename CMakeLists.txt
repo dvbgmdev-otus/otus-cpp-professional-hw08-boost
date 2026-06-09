@@ -41,9 +41,11 @@ if(1) # CORE LIBRARY BLOCK
     set(CORE_SRC ${CORE_NAME}_SRC)
 
     set(${CORE_SRC}
+        ${SRC_DIR}/name_matcher.cpp
     )
 
     set(COVERAGE_SRC
+        ${SRC_DIR}/name_matcher.cpp
     )
 
     if(${CORE_SRC})
@@ -51,6 +53,10 @@ if(1) # CORE LIBRARY BLOCK
 
         target_include_directories(${CORE_NAME} PUBLIC
             ${PROJECT_INCLUDE_DIR}
+        )
+
+        target_link_libraries(${CORE_NAME} PUBLIC
+            Boost::filesystem
         )
 
         target_compile_options(${CORE_NAME} PRIVATE ${WARN_FLAGS})
