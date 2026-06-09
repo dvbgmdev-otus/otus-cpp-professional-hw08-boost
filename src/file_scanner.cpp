@@ -9,6 +9,11 @@ namespace {
 
 namespace fs = boost::filesystem;
 
+/**
+ * @brief Возвращает нормализованный абсолютный путь.
+ * @param path Исходный путь.
+ * @return Канонический путь или абсолютный путь, если канонизация недоступна.
+ */
 fs::path normalized_path(const fs::path& path) {
     boost::system::error_code error;
     fs::path canonical_path = fs::canonical(path, error);
@@ -18,6 +23,12 @@ fs::path normalized_path(const fs::path& path) {
     return fs::absolute(path);
 }
 
+/**
+ * @brief Проверяет, входит ли директория в список исключений.
+ * @param path Проверяемая директория.
+ * @param exclude_dirs Директории исключения.
+ * @return `true`, если директория совпадает с одной из исключённых.
+ */
 bool is_excluded_directory(const fs::path& path, const std::vector<fs::path>& exclude_dirs) {
     const fs::path current = normalized_path(path);
     return std::any_of(
@@ -26,16 +37,31 @@ bool is_excluded_directory(const fs::path& path, const std::vector<fs::path>& ex
         });
 }
 
+/**
+ * @brief Безопасно проверяет, является ли путь обычным файлом.
+ * @param path Проверяемый путь.
+ * @return `true`, если путь указывает на обычный файл.
+ */
 bool path_is_regular_file(const fs::path& path) {
     boost::system::error_code error;
     return fs::is_regular_file(path, error) && !error;
 }
 
+/**
+ * @brief Безопасно проверяет, является ли путь директорией.
+ * @param path Проверяемый путь.
+ * @return `true`, если путь указывает на директорию.
+ */
 bool path_is_directory(const fs::path& path) {
     boost::system::error_code error;
     return fs::is_directory(path, error) && !error;
 }
 
+/**
+ * @brief Безопасно получает размер обычного файла.
+ * @param path Путь к файлу.
+ * @return Размер файла или 0 при ошибке чтения размера.
+ */
 std::uintmax_t regular_file_size(const fs::path& path) {
     boost::system::error_code error;
     const std::uintmax_t size = fs::file_size(path, error);

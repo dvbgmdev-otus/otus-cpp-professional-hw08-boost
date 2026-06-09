@@ -5,6 +5,12 @@
 
 namespace {
 
+/**
+ * @brief Рассчитывает количество блоков для файла.
+ * @param file_size Размер файла в байтах.
+ * @param block_size Размер блока чтения.
+ * @return Количество блоков с округлением вверх.
+ */
 std::size_t calculate_block_count(std::uintmax_t file_size, std::size_t block_size) {
     if (file_size == 0) {
         return 0;

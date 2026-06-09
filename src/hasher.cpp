@@ -9,14 +9,27 @@
 
 namespace {
 
+/**
+ * @brief Форматирует 32-битное значение в шестнадцатеричную строку.
+ * @param value Значение для форматирования.
+ * @return Строка из восьми шестнадцатеричных символов.
+ */
 std::string to_hex(std::uint32_t value) {
     std::ostringstream stream;
     stream << std::hex << std::setfill('0') << std::setw(8) << value;
     return stream.str();
 }
 
+/**
+ * @brief Хэшер блоков на основе CRC32.
+ */
 class Crc32Hasher final : public IBlockHasher {
 public:
+    /**
+     * @brief Рассчитывает CRC32 блока.
+     * @param block Данные блока.
+     * @return Хэш блока в шестнадцатеричном формате.
+     */
     std::string hash(const std::vector<char>& block) const override {
         boost::crc_32_type crc;
         crc.process_bytes(block.data(), block.size());
@@ -24,8 +37,16 @@ public:
     }
 };
 
+/**
+ * @brief Хэшер блоков на основе MD5.
+ */
 class Md5Hasher final : public IBlockHasher {
 public:
+    /**
+     * @brief Рассчитывает MD5 блока.
+     * @param block Данные блока.
+     * @return Хэш блока в шестнадцатеричном формате.
+     */
     std::string hash(const std::vector<char>& block) const override {
         boost::uuids::detail::md5 md5;
         md5.process_bytes(block.data(), block.size());

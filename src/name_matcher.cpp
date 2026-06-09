@@ -5,6 +5,11 @@
 
 namespace {
 
+/**
+ * @brief Переводит строку в нижний регистр.
+ * @param value Исходная строка.
+ * @return Строка в нижнем регистре.
+ */
 std::string to_lower(std::string value) {
     std::transform(value.begin(), value.end(), value.begin(), [](unsigned char ch) {
         return static_cast<char>(std::tolower(ch));
@@ -13,6 +18,13 @@ std::string to_lower(std::string value) {
     return value;
 }
 
+/**
+ * @brief Проверяет соответствие строки маске с wildcard-символами.
+ * @param pattern Маска, где `*` означает любую последовательность,
+ *        а `?` — один символ.
+ * @param value Проверяемая строка.
+ * @return `true`, если строка соответствует маске.
+ */
 bool wildcard_match(const std::string& pattern, const std::string& value) {
     std::size_t pattern_pos = 0;
     std::size_t value_pos = 0;

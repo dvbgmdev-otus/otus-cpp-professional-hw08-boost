@@ -8,6 +8,12 @@ namespace {
 
 namespace po = boost::program_options;
 
+/**
+ * @brief Преобразует строковое имя алгоритма в enum-значение.
+ * @param value Имя алгоритма из командной строки.
+ * @return Алгоритм хэширования.
+ * @throws std::invalid_argument если алгоритм неизвестен.
+ */
 HashAlgorithm parse_hash_algorithm(const std::string& value) {
     if (value == "crc32") {
         return HashAlgorithm::Crc32;
@@ -18,6 +24,11 @@ HashAlgorithm parse_hash_algorithm(const std::string& value) {
     throw std::invalid_argument("Unknown hash algorithm: " + value);
 }
 
+/**
+ * @brief Преобразует строковые пути в пути Boost.Filesystem.
+ * @param values Строковые значения параметра командной строки.
+ * @return Список путей.
+ */
 std::vector<boost::filesystem::path> to_paths(const std::vector<std::string>& values) {
     std::vector<boost::filesystem::path> paths;
     paths.reserve(values.size());
@@ -27,6 +38,11 @@ std::vector<boost::filesystem::path> to_paths(const std::vector<std::string>& va
     return paths;
 }  // LCOV_EXCL_LINE
 
+/**
+ * @brief Формирует текст справки из описания параметров.
+ * @param description Описание доступных параметров.
+ * @return Текст справки.
+ */
 std::string make_help_message(const po::options_description& description) {
     std::ostringstream stream;
     stream << description;

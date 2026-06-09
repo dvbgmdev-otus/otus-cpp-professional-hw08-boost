@@ -10,6 +10,11 @@ namespace {
 
 using SignatureIndexGroup = std::vector<std::size_t>;
 
+/**
+ * @brief Оставляет только группы индексов, в которых есть дубликаты.
+ * @param groups Группы индексов сигнатур, сгруппированные по хэшу.
+ * @return Группы, содержащие больше одного индекса.
+ */
 std::vector<SignatureIndexGroup> keep_groups_with_duplicates(
     const std::map<std::string, SignatureIndexGroup>& groups) {
     std::vector<SignatureIndexGroup> result;
