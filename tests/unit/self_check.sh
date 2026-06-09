@@ -61,6 +61,21 @@ check_output_lines_unordered() {
     check_output "$name" "$sorted_expected" "$sorted_actual"
 }
 
+check_command_fails_with_error() {
+    local name="$1"
+    local expected_error="$2"
+    shift 2
+
+    local actual_error
+    if actual_error="$("$@" 2>&1 >/dev/null)"; then
+        log_error "Test failed: $name"
+        log_error "Expected command to fail"
+        exit 1
+    fi
+
+    check_contains "$name" "$expected_error" "$actual_error"
+}
+
 main() {
     if [[ ! -x "$BINARY" ]]; then
         log_error "Binary not found or not executable: $BINARY"
@@ -126,6 +141,11 @@ main() {
     expected="$(printf '%s\n' "${expected_lines[@]}")"
 
     check_output_lines_unordered "duplicate files output" "$expected" "$output"
+
+    check_command_fails_with_error \
+        "unknown hash returns error" \
+        "Unknown hash algorithm: sha1" \
+        "$BINARY" --hash sha1
 
     log_ok "Self-check passed"
 }
