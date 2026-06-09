@@ -41,6 +41,7 @@ if(1) # CORE LIBRARY BLOCK
     set(CORE_SRC ${CORE_NAME}_SRC)
 
     set(${CORE_SRC}
+        ${SRC_DIR}/duplicate_finder.cpp
         ${SRC_DIR}/file_scanner.cpp
         ${SRC_DIR}/file_signature.cpp
         ${SRC_DIR}/hasher.cpp
@@ -48,6 +49,7 @@ if(1) # CORE LIBRARY BLOCK
     )
 
     set(COVERAGE_SRC
+        ${SRC_DIR}/duplicate_finder.cpp
         ${SRC_DIR}/file_scanner.cpp
         ${SRC_DIR}/file_signature.cpp
         ${SRC_DIR}/hasher.cpp
