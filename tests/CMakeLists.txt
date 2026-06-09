@@ -45,6 +45,10 @@ add_unit_test(empty_test
     ${UNIT_TEST_DIR}/empty_test.cpp
 )
 
+add_unit_test(file_scanner_test
+    ${UNIT_TEST_DIR}/file_scanner_test.cpp
+)
+
 add_unit_test(name_matcher_test
     ${UNIT_TEST_DIR}/name_matcher_test.cpp
 )

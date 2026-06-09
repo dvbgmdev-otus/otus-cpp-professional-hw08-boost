@@ -41,10 +41,12 @@ if(1) # CORE LIBRARY BLOCK
     set(CORE_SRC ${CORE_NAME}_SRC)
 
     set(${CORE_SRC}
+        ${SRC_DIR}/file_scanner.cpp
         ${SRC_DIR}/name_matcher.cpp
     )
 
     set(COVERAGE_SRC
+        ${SRC_DIR}/file_scanner.cpp
         ${SRC_DIR}/name_matcher.cpp
     )
 
