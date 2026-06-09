@@ -25,7 +25,7 @@ std::vector<boost::filesystem::path> to_paths(const std::vector<std::string>& va
         paths.push_back(value);
     }
     return paths;
-} // LCOV_EXCL_LINE
+}  // LCOV_EXCL_LINE
 
 std::string make_help_message(const po::options_description& description) {
     std::ostringstream stream;
