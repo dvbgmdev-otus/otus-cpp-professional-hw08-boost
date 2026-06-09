@@ -42,12 +42,14 @@ if(1) # CORE LIBRARY BLOCK
 
     set(${CORE_SRC}
         ${SRC_DIR}/file_scanner.cpp
+        ${SRC_DIR}/file_signature.cpp
         ${SRC_DIR}/hasher.cpp
         ${SRC_DIR}/name_matcher.cpp
     )
 
     set(COVERAGE_SRC
         ${SRC_DIR}/file_scanner.cpp
+        ${SRC_DIR}/file_signature.cpp
         ${SRC_DIR}/hasher.cpp
         ${SRC_DIR}/name_matcher.cpp
     )
